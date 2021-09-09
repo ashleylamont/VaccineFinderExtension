@@ -1,8 +1,3 @@
-function ready(...args) {
-  console.log("Test");
-  console.log({args});
-}
-
 async function checkForAppointment() {
   const delay = () => new Promise(resolve => {window.setTimeout(resolve, 500)});
 
@@ -17,26 +12,13 @@ async function checkForAppointment() {
   chrome.runtime.sendMessage(noResults);
 }
 
-function success() {
-  console.log("SUCESS");
-}
-
-function failure() {
-  console.log("FAILURE");
-}
-
 function getState() {
-  console.log("Checking load state");
   return document.readyState;
-}
-
-function debug(arg){
-  console.log(arg);
 }
 
 chrome.action.onClicked.addListener((tab) => {
     const reload = () => {
-      chrome.tabs.reload(tab.id, {}, ready);
+      chrome.tabs.reload(tab.id);
       const checkLoaded = setInterval(async () => {
         data = await chrome.scripting.executeScript({
           target: {tabId: tab.id},
@@ -68,23 +50,9 @@ chrome.action.onClicked.addListener((tab) => {
 
       const noResults = await message;
 
-      chrome.scripting.executeScript({
-        target: {tabId: tab.id},
-        function: debug,
-        args: [noResults]
-      })
-      console.log({noResults});
       if (noResults) {
         setTimeout(reload, 5000);
-        chrome.scripting.executeScript({
-          target: {tabId: tab.id},
-          function: failure,
-        });
       } else {
-        chrome.scripting.executeScript({
-          target: {tabId: tab.id},
-          function: success,
-        });
         const opts = {
           type: 'basic',
           title: 'Booking Available',
