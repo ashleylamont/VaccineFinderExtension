@@ -1,0 +1,15 @@
+{
+  "name": "Vaccine Finder",
+  "description": "Reloads HotDoc until a vaccine is available",
+  "version": "1.0",
+  "manifest_version": 3,
+  "background": {
+    "service_worker": "background.js"
+  },
+  "permissions": [
+    "activeTab",
+    "scripting",
+    "notifications"
+  ],
+  "action": {}
+}
